@@ -3,17 +3,17 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                echo 'Checking out the code...'
+                git branch: 'master', url: 'https://github.com/ALBCAB03/threepoints_devops_webserver.git'
             }
         }
         stage('Pruebas de SAST'){
             steps{
-                echo 'Testing the application...'
+                echo 'Realizando pruebas de SAST...'
             }
         }
         stage('Build'){
             steps{
-                echo 'Building the application...'
+                sh 'docker build -t threepoints_devops_webserver .'
             }
         }
     }
