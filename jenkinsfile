@@ -24,8 +24,8 @@ pipeline{
                         sh """
                             ${SCANNER_HOME}/bin/sonar-scanner 
                             -Dsonar.projectKey=devops_ws
-                            -Dsonar.host.url=${SONARQUBE_URL}
-                            -Dsonar.login=${SONARQUBE_CREDENTIALS}
+                            -Dsonar.host.url=$SONARQUBE_URL
+                            -Dsonar.login=$SONARQUBE_CREDENTIALS
                         """
                     }
                 }
