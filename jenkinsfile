@@ -3,7 +3,6 @@ pipeline{
     environment{
         SONARQUBE_URL = 'http://localhost:9000'
         SONARQUBE_PROJECT = 'devops_ws'
-        SONARQUBE_CREDENTIALS = credentials('sonar-token')
         SCANNER_HOME = tool 'SonarScanner'
     }
     
@@ -22,16 +21,11 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv('Sonar Local'){
-                        sh"""
-                            echo "SONARQUBE_PROJECT = ${SONARQUBE_PROJECT}"
-                            echo "SONARQUBE_URL = ${SONARQUBE_URL}"
-                            echo "SONARQUBE_CREDENTIALS = ${SONARQUBE_CREDENTIALS}"
-                        """
                         sh """
                             ${SCANNER_HOME}/bin/sonar-scanner 
                             -Dsonar.projectKey=${SONARQUBE_PROJECT}
                             -Dsonar.host.url=${SONARQUBE_URL}
-                            -Dsonar.login=${SONARQUBE_CREDENTIALS}
+                            -Dsonar.login=\$SONAR_AUTH_TOKEN
                         """
                     }
                 }
