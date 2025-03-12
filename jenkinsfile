@@ -22,10 +22,10 @@ pipeline{
                 script{
                     withSonarQubeEnv('Sonar Local'){
                         sh """
-                            ${scannerHome}/bin/sonar-scanner 
+                            ${SCANNER_HOME}/bin/sonar-scanner 
                             -Dsonar.projectKey=devops_ws
                             -Dsonar.host.url=${SONARQUBE_URL}
-                            -Dsonar.login=${env.SONARQUBE_CREDENTIALS}
+                            -Dsonar.login=${SONARQUBE_CREDENTIALS}
                         """
                     }
                 }
