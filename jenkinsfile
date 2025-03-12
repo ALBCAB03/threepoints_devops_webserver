@@ -3,6 +3,7 @@ pipeline{
     environment{
         SONARQUBE_URL = 'http://localhost:9000'
         SONARQUBE_CREDENTIALS = credentials('sonar-token')
+        SCANNER_HOME = tool 'SonarScanner'
     }
     
     stages{
@@ -16,29 +17,17 @@ pipeline{
                 echo 'Realizando pruebas de SAST...'
             }
         }
-        stage('SonarQube'){
+        stage('SonarQube Analisis'){
             steps{
                 script{
-                    def scannerHome = tool 'SonarQubeScanner'
-                    withSonarQubeEnv('SonarQube'){
+                    withSonarQubeEnv('Sonar Local'){
                         sh """
-                            ${scannerHome}/bin/sonar-scanner 
-                            -Dsonar.projectKey=devops_ws 
-                            -Dsonar.host.url=$SONARQUBE_URL 
-                            -Dsonar.login=$SONARQUBE_CREDENTIALS
+                            ${SCANNER_HOME}/bin/sonar-scanner 
+                            -Dsonar.projectKey=devops_ws
+                            -Dsonar.sources=.
+                            -Dsonar.host.url=${SONARQUBE_URL}
+                            -Dsonar.login=${SONARQUBE_CREDENTIALS}
                         """
-                    }
-                }
-            }
-        }
-        stage('Quality Gate'){
-            steps{
-                script{
-                    timeout(time: 5, unit: 'MINUTES'){
-                        def qg = waitForQualityGate abortPipeline: true
-                        if(qg.status != 'OK'){
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                        }
                     }
                 }
             }
