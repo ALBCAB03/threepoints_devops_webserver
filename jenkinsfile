@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment{
-        SONARQUBE_URL = 'http://localhost:9000/project/information?id=devops_ws'
+        SONARQUBE_URL = 'http://localhost:9000'
         SONARQUBE_PROJECT = 'devops_ws'
         SONARQUBE_CREDENTIALS = credentials('sonar-token')
         SCANNER_HOME = tool 'SonarScanner'
@@ -24,7 +24,7 @@ pipeline{
                     withSonarQubeEnv('Sonar Local'){
                         sh """
                             ${SCANNER_HOME}/bin/sonar-scanner 
-                            -Dsonar.projectKey= ${SONARQUBE_PROJECT}
+                            -Dsonar.projectKey=${SONARQUBE_PROJECT}
                             -Dsonar.host.url=$SONARQUBE_URL
                             -Dsonar.login=$SONARQUBE_CREDENTIALS
                         """
