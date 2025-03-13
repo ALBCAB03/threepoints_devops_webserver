@@ -17,7 +17,7 @@ pipeline{
                 stage('Imprimir Env'){
                     steps{
                         echo 'Imprimiendo variables de entorno'
-                        echo $WORKSPACE
+                        echo ${WORKSPACE}
                     }
                 }
             }
