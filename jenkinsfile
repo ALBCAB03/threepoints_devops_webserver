@@ -16,7 +16,7 @@ pipeline{
                 }
                 stage('Imprimir Env'){
                     steps{
-                        echo 'WORKSPACE: ${env.WORKSPACE}'
+                        echo 'WORKSPACE: ${WORKSPACE}'
                     }
                 }
             }
