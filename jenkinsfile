@@ -1,11 +1,6 @@
 pipeline{
     agent any
-    environment{
-        SONARQUBE_URL = 'http://localhost:9000'
-        SONARQUBE_PROJECT = 'devops_ws'
-        SCANNER_HOME = tool 'SonarScanner'
-    }
-    
+  
     stages{
         stage('Checkout'){
             steps{
@@ -13,8 +8,15 @@ pipeline{
             }
         }
         stage('Pruebas de SAST'){
-            steps{
-                echo 'Realizando pruebas de SAST...'
+            parallel{
+                stage('Pruebas de SAST'){
+                    echo 'Iniciando pruebas de SAST'
+                }
+                stage('Imprimir Env'){
+                    steps{
+                        echo " WORKSPACE: ${WORKSPACE}"
+                    }
+                }
             }
         }
         stage('Build'){
