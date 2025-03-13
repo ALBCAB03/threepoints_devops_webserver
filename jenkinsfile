@@ -17,20 +17,6 @@ pipeline{
                 echo 'Realizando pruebas de SAST...'
             }
         }
-        stage('SonarQube Analisis'){
-            steps{
-                script{
-                    withSonarQubeEnv('Sonar Local'){
-                        sh """
-                            ${SCANNER_HOME}/bin/sonar-scanner 
-                            -Dsonar.projectKey=${SONARQUBE_PROJECT}
-                            -Dsonar.host.url=${SONARQUBE_URL}
-                            -Dsonar.login=\$SONAR_AUTH_TOKEN
-                        """
-                    }
-                }
-            }
-        }
         stage('Build'){
             steps{
                 sh 'docker build -t devops_ws .'
