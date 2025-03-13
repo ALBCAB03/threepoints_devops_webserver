@@ -9,12 +9,14 @@ pipeline{
         }
         stage('Pruebas de SAST'){
             parallel{
-                stage('Pruebas de SAST'){
-                    echo 'Iniciando pruebas de SAST'
+                stage('Ejecutar SAST'){
+                    steps{
+                        echo 'Iniciando pruebas de SAST'
+                    }
                 }
                 stage('Imprimir Env'){
                     steps{
-                        echo " WORKSPACE: ${WORKSPACE}"
+                        echo 'WORKSPACE: ${env.WORKSPACE}'
                     }
                 }
             }
