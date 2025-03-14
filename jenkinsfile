@@ -22,11 +22,11 @@ pipeline{
                         script{
                             def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation';
                             withSonarQubeEnv('Sonal Local'){
-                                sh "${scannerHome}/bin/sonar-scanner
+                                sh """${scannerHome}/bin/sonar-scanner
                                     -Dsonar.projectKey=threepoints_devops_webserver
                                     -Dsonar.sources=.
                                     -Dsonar.host.url=http://localhost:9000
-                                    -Dsonar.login={Jenkins Token}"
+                                    -Dsonar.login={Jenkins Token}"""
                             }
                         }
                     }
