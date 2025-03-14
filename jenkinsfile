@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    environment{
+        SONNARQUBE_SEVER = 'Sonal Local'
+    }
   
     stages{
         stage('Checkout'){
@@ -14,10 +17,28 @@ pipeline{
                         echo 'Iniciando pruebas de SAST'
                     }
                 }
-                stage('Imprimir Env'){
+                stage('Analizar Codigo'){
                     steps{
-                        echo 'Imprimiendo variables de entorno'
-                        echo "${env.WORKSPACE}"
+                        script{
+                            def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation';
+                            withSonarQubeEnv('Sonal Local'){
+                                sh "${scannerHome}/bin/sonar-scanner
+                                    -Dsonar.projectKey=threepoints_devops_webserver
+                                    -Dsonar.sources=.
+                                    -Dsonar.host.url=http://localhost:9000
+                                    -Dsonar.login={Jenkins Token}"
+                            }
+                        }
+                    }
+
+            }
+        }
+        stage('SonarQube Quality Gate'){
+            steps{
+                timeout(time: 5, unit: 'minutes'){
+                    def qg = waitForQualityGate()
+                    if(qg.status != 'OK'){
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
                     }
                 }
             }
