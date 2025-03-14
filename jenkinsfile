@@ -17,18 +17,18 @@ pipeline{
                 stage('Imprimir Env'){
                     steps{
                         echo 'Imprimiendo variables de entorno'
-                        echo '${WORKSPACE}'
+                        echo "${env.WORKSPACE}"
                     }
                 }
             }
         }
         stage('Configurar archivo'){
             steps{
-                withCredentials([usernamePassword(credentialsId: 'Credentials_Threepoints', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'Credentials_Threepoints', usernameVariable: 'admin', passwordVariable: 'password')]) {
                     sh '''
                         echo "[credentials]" > credentials.ini
-                        echo "user=${USER}" >> credentials.ini
-                        echo "password=${PASS}" >> credentials.ini
+                        echo "user=${admin}" >> credentials.ini
+                        echo "password=${password}" >> credentials.ini
                     '''
                 }
                 archiveArtifacts artifacts: 'credentials.ini', onlyIfSuccessful: true, fingerprint: true
