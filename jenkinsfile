@@ -1,7 +1,7 @@
 pipeline{
     agent any
     environment{
-        SONNARQUBE_SEVER = 'Sonal Local'
+        SONNARQUBE_SEVER = 'Sonar Local'
     }
   
     stages{
@@ -21,7 +21,7 @@ pipeline{
                     steps{
                         script{
                             def scannerHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation';
-                            withSonarQubeEnv('Sonal Local'){
+                            withSonarQubeEnv('Sonar Local'){
                                 sh """${scannerHome}/bin/sonar-scanner
                                     -Dsonar.projectKey=threepoints_devops_webserver
                                     -Dsonar.sources=.
