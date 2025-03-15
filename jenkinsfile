@@ -64,7 +64,7 @@ pipeline{
                 docker rm devops_ws || true
 
                 echo "levantando contenedor"
-                'docker run -d -p 8080:8080 --name devops_ws devops_ws'
+                docker run -d -p 8080:8080 --name devops_ws devops_ws
                 '''
             }
         }
