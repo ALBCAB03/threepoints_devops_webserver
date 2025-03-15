@@ -56,5 +56,17 @@ pipeline{
                 sh 'docker build -t devops_ws .'
             }
         }
+        stage('Despliegue servidor'){
+            steps{
+                sh ''' 
+                echo "deteniendo contenedores"
+                docker stop devops_ws || true
+                docker rm devops_ws || true
+
+                echo "levantando contenedor"
+                'docker run -d -p 8080:8080 --name devops_ws devops_ws'
+                '''
+            }
+        }
     }
 }
