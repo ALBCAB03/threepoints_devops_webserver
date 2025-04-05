@@ -1,0 +1,22 @@
+name: CI - Pipeline Alberto Caballero
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Pruebas de SAST
+          run: echo "Pruebas de SAST"
+
+        - name: Create file with credentials
+          run: |
+            echo "[credentials]" > credentials.ini
+            echo "username = ${{ secrets.USERNAME }}" >> credentials.ini
+            echo "password = ${{ secrets.PASSWORD }}" >> credentials.ini
+    
+        - name: Build docker image
+          run: |
+            docker build -t devops_ws . --tag devops_ws_:$(date +%s)
