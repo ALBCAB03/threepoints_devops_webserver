@@ -17,6 +17,9 @@ jobs:
             echo "username = ${{ secrets.USERNAME }}" >> credentials.ini
             echo "password = ${{ secrets.PASSWORD }}" >> credentials.ini
     
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v2
+
         - name: Build docker image
           run: |
             docker build -t devops-ws:$(date +%s) .
