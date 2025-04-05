@@ -2,7 +2,7 @@ name: CI - Pipeline Alberto Caballero
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
