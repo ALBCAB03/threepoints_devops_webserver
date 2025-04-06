@@ -1,0 +1,43 @@
+name: Pull Request Quality Gate
+
+on:
+  pull_request:
+
+jobs:
+  analyze-and-validate:
+    runs-on: ubuntu-latest
+    outputs:
+      allow_pull: ${{ steps.check.outputs.allow_pull }}
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v3
+
+      - name: Análisis de código SAST
+        run: echo "Realizando análisis de SAST"
+
+      - name: Comprobación de requisitos (simulado)
+        id: check
+        run: |
+          if [ -f allow_pull_request.txt ]; then
+            echo "Archivo allow_pull_request.txt encontrado. Permitiendo Pull Request."
+            echo "allow_pull=true" >> $GITHUB_OUTPUT
+          else
+            echo "Archivo allow_pull_request.txt NO encontrado. Impidiendo Pull Request."
+            echo "allow_pull=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Permitir Pull Request si allow_pull es true
+        if: steps.check.outputs.allow_pull == 'true'
+        run: echo "Permitiendo Pull Request"
+
+      - name: Impedir Pull Request si allow_pull es false
+        if: steps.check.outputs.allow_pull == 'false'
+        run: |
+          echo "Build fallida. Impidiendo Pull Request"
+          exit 1
+
+      - name: Guardar artefacto (para verificación)
+        uses: actions/upload-artifact@v4
+        with:
+          name: codigo-pr
+          path: .
